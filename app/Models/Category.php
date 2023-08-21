@@ -6,18 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model
+class Category extends Model
 {
     use HasFactory;
-
-    protected $fillable =[
-        "first_name",
-        "last_name",
-        "age",
-        "gender",
+    protected $fillable = [
+        "name"
     ];
 
-    public function loans(): HasMany{
-        return $this->hasMany(Loan::class);
+    public function books():HasMany{
+        return $this->hasMany(Book::class);
     }
 }
