@@ -3,74 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Exception;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use Response;
 
 class UserController extends Controller
 {
-    public function add_user(Request $request){
+    public function getUsers(){
+        return Response()->json(User::getAllUsers());
+    }
+    public function addUser(Request $request){
         $data = $request->only([
             "first_name",
             "last_name",
             "age",
             "gender",
         ]);
-
-        $create = User::create($data);
-        return Response()->json(
-            [
-                "status"=>'200',
-                "message"=>'User created',
-                "data"=> $create,
-            ]
-        );
+        return Response()->json(User::insertUser($data));
     }
-
-    public function get_user( $id = null){
-        if ($id == null) {
-            return Response()->json(User::all());
-        }
-        return Response()->json(User::where('id', $id)->get());
+    public function editUser(Request $request){
+        $user = User::findUserById($request->id);
+        return Response()->json(User::editUser($request, $user));
     }
-
-    public function edit_user(Request $request, $id){
-        try {
-            $user = User::find($id);
-            $user->update($request->all());
-            return Response()->json([
-                'status'=> 201,
-                'message'=>'updating user successfull',
-                'data'=>''
-            ]);
-        } catch (Exception $err) {
-                return Response()->json([
-                'status'=> $err->getCode(),
-                'message'=>$err->getMessage(),
-                'data'=>''
-            ]);
-        }
+    public function deleteUser(Request $request){
+        $user = User::findUserById($request->id);
+        return Response()->json(User::deleteUser($user));
     }
-
-    public function delete_user($id){
-        $user = User::find($id)->delete();
-        if($user){
-            return Response()->json([
-                'status'=> 201,
-                'message'=> 'User removing seccessful',
-                'data'=> "",
-            ]);
-        }else {
-            return Response()->json([
-                'status'=> 400,
-                'message'=> 'User removing faild',
-                'data'=> "",
-            ]);
-        }
+    public function countLoan(Request $request){
+        $load_number = UserService::getLoanCount($request->id);
+        return Response()->json($load_number);
     }
-
-    public function count_loan($id){
-        $user = User::find($id)->loans;
-        return Response()->json(count($user));
+    public function getUserById(Request $request){
+        return Response()->json(User::findUserById($request->id));
     }
 }

@@ -1,0 +1,4 @@
+1. rename controller function names
+2. seperate show and list
+3. move all queries to model or anywhere else (services)
+4. group file by folder
