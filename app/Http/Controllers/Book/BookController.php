@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\BookService;
 use App\Models\Book;
+use App\Services\BookService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller

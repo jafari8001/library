@@ -12,13 +12,16 @@ class UserController extends Controller
         return Response()->json(User::getAllUsers());
     }
     public function addUser(Request $request){
-        $data = $request->only([
-            "first_name",
-            "last_name",
-            "age",
-            "gender",
-        ]);
-        return Response()->json(User::insertUser($data));
+        $validate = $this->validateRequest($request, 'user');
+        if ($validate) {
+            $data = $request->only([
+                "first_name",
+                "last_name",
+                "age",
+                "gender",
+            ]);
+            return Response()->json(User::insertUser($data));
+        }
     }
     public function editUser(Request $request){
         $user = User::findUserById($request->id);
