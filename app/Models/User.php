@@ -30,13 +30,13 @@ class User extends Model
     public static function getAllUsers(){
         return User::all();
     }
-    public static function editUser($request, $user){
+    public static function editUser($data, $user){
         try {
-            $user->update($request->all());
+            $user->update($data);
             return [
                 'status'=> 201,
                 'message'=>'updating user successfull',
-                'data'=>$request
+                'data'=>$data
             ];
         } catch (Exception $err) {
                 return Response()->json([

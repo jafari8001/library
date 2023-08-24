@@ -1,10 +1,11 @@
 <?php 
 
 namespace App\Services;
-use App\Models\User;
+use App\Models\Book;
+
 
 class UserService {
     public static function getLoanCount($id){
-        return User::find($id)->loans()->count();
+        return Book::find($id)->loans()->count();
     }
 }

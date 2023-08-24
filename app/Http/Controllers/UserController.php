@@ -22,7 +22,13 @@ class UserController extends Controller
     }
     public function editUser(Request $request){
         $user = User::findUserById($request->id);
-        return Response()->json(User::editUser($request, $user));
+        $data = $request->only([
+            "first_name",
+            "last_name",
+            "age",
+            "gender",
+        ]);
+        return Response()->json(User::editUser($data, $user));
     }
     public function deleteUser(Request $request){
         $user = User::findUserById($request->id);
