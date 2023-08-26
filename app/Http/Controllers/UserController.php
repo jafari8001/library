@@ -4,24 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getUsers(){
-        return Response()->json(User::getAllUsers());
+    private $rules = [
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'age' => 'required|integer|min:0',
+        'gender' => 'required|in:male,female',
+    ];
+
+    public function getUsers(Request $request){
+        return Response()->json(User::getAllUsers($request));
     }
     public function addUser(Request $request){
-        $validate = $this->validateRequest($request, 'user');
-        if ($validate) {
-            $data = $request->only([
-                "first_name",
-                "last_name",
-                "age",
-                "gender",
-            ]);
-            return Response()->json(User::insertUser($data));
-        }
+        $this->validateRequest($request, $this->rules);
+        $data = $request->only([
+            "first_name",
+            "last_name",
+            "age",
+            "gender",
+        ]);
+        return Response()->json(User::insertUser($data));
     }
     public function editUser(Request $request){
         $user = User::findUserById($request->id);
