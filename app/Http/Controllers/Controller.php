@@ -13,6 +13,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    
+
     protected function validateRequest(Request $request, $rules = []){
         $validated = Validator::make($request->all(), $rules);
         
@@ -20,4 +22,6 @@ class Controller extends BaseController
             throw new ValidationException();
         }
     }
+
+    
 }

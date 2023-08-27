@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\helpers\ResponseHelper;
 
 class User extends Model
 {
@@ -25,14 +26,26 @@ class User extends Model
                 'data'=> $create
             ];
     }
-
     public static function getAllUsers($request){
+        $row_number = 10;
         $query = User::query();
-        
+            if (isset($request['row_number'])) {
+                $row_number = $request['row_number'];
+            }
             if (isset($request['filters'])) {
                 foreach ($request['filters'] as $key => $value) {
-                    if(isset($value['op'])){
-                        $query->where($key, $value['op'], $value['value']);
+                    if(isset($value['operation'])){
+                        switch ($value['operation']) {
+                            case 'in':
+                                $query->whereIn($key, $value['value']);
+                                break;
+                            case 'between':
+                                $query->whereBetween($key, $value['value']);
+                                break;   
+                            default:
+                                $query->where($key, $value['operation'], $value['value']);
+                                break;
+                        }
                     }else{
                         $query->where($key, 'like', '%' . $value . '%');
                     }
@@ -43,60 +56,57 @@ class User extends Model
                     $query->orderBy($key, $value);
                 }
             }            
-            return [
-                'status'=> 200,
-                'message'=> 'users in dataase',
-                'data'=> [
-                    'Users'=> $query->get(),
-                    'count'=> $query->count()
-                ]
-            ];
+            return ResponseHelper::showResponse(
+                200,
+                'users in dataase', 
+                [
+                    "Users"=> $query->paginate($row_number),
+                    'count'=> $row_number
+                ]);
         
     }
     public static function editUser($data, $user){
         if ($user == false) {
-            return [
-                'status'=> 404,
-                'message'=> 'user not found',
-                'data'=> ''
-            ];
+            return ResponseHelper::showResponse(
+                404,
+                "user not found",
+            );
         }
         $user['data']->update($data);
-        return [
-            'status'=> 201,
-            'message'=>'updating user successfull',
-            'data'=>$user
-        ];
+        return ResponseHelper::showResponse(
+            201,
+            "updating user successfull",
+            $user
+        );
     }
     public static function deleteUser($user){
         if ($user == false) {
-            return [
-                'status'=> 404,
-                'message'=> 'user not found',
-                'data'=> ''
-            ];
+            return ResponseHelper::showResponse(
+                404,
+                "user not found",
+            );
         }
         $user['data']->delete();
-        return [
-            'status'=> 200,
-            'message'=> 'Removing user seccessful',
-            'data'=> $user
-        ];
+        return ResponseHelper::showResponse(
+            200,
+            "Removing user seccessful",
+            $user
+        );
     }
     public static function findUserById($id){
         $user = User::find($id);
         if ($user == null) {
             return false;
         }
-        return [
-            'status'=> 200,
-            'message'=> 'find user successfull',
-            'data'=> $user->first()
-        ];
+        return ResponseHelper::showResponse(
+            200,
+            "Find user successfull",
+            $user->first()
+        );
     }
 
 
     public function loans(): HasMany{
-        return $this->hasMany(Loan::class);
+        return $this->hasMany(Loan::class);   
     }
 }
