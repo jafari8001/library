@@ -21,16 +21,7 @@ class UserController extends Controller
         "gender"
     ];
     protected $model_name = User::class;
-    // public function editUser(Request $request){
-    //     $user = User::findUserById($request->id);
-    //     $data = $request->only([
-    //         "first_name",
-    //         "last_name",
-    //         "age",
-    //         "gender",
-    //     ]);
-    //     return Response()->json(User::editUser($data, $user));
-    // }
+    
     public function countLoan(Request $request){
         $load_number = UserService::getLoanCount($request->id);
         return Response()->json($load_number);
