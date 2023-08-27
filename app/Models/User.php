@@ -18,15 +18,7 @@ class User extends Model
         "gender",
     ];
 
-    public static function insertUser($data){
-            $create = User::create($data);
-            return[
-                'status'=> 201,
-                'message'=> 'Create user successfull',
-                'data'=> $create
-            ];
-    }
-    public static function getAllUsers($request){
+    public static function getAllData($request){
         $row_number = 10;
         $query = User::query();
             if (isset($request['row_number'])) {
@@ -65,7 +57,15 @@ class User extends Model
                 ]);
         
     }
-    public static function editUser($data, $user){
+    public static function insertData($data){
+            $create = User::create($data);
+            return[
+                'status'=> 201,
+                'message'=> 'Create user successfull',
+                'data'=> $create
+            ];
+    }
+    public static function editData($data, $user){
         if ($user == false) {
             return ResponseHelper::showResponse(
                 404,
@@ -79,7 +79,7 @@ class User extends Model
             $user
         );
     }
-    public static function deleteUser($user){
+    public static function deleteData($user){
         if ($user == false) {
             return ResponseHelper::showResponse(
                 404,
@@ -93,7 +93,7 @@ class User extends Model
             $user
         );
     }
-    public static function findUserById($id){
+    public static function findDataById($id){
         $user = User::find($id);
         if ($user == null) {
             return false;
