@@ -40,4 +40,29 @@ class BaseModel extends Model
             'row_number' => $row_number
         ];
     }
+
+    public static function getAllData($request){
+        $query = self::query();
+        $filtered_result = self::filterRequest($query,$request);
+        return $filtered_result['query']->paginate($filtered_result['row_number']);
+    }
+    public static function insertData($data){
+        $create = self::create($data);
+        return $create;
+    }
+    public static function editData($data, $user){
+        $user->update($data);
+        return $user;
+    }
+    public static function deleteData($user){
+        $user->delete();
+        return $user;
+    }
+    public static function findDataById($id){
+        $user = self::find($id);
+        if ($user == null) {
+            return false;
+        }
+        return $user;
+    }
 }

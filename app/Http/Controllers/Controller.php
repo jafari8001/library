@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Exceptions\ValidationException;
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController{
     use AuthorizesRequests, ValidatesRequests;
-    protected $model_name; 
+    protected $model_name = null; 
     protected $rules = [];
     protected $data_inputs = [];
 
@@ -26,7 +27,7 @@ class Controller extends BaseController{
         return showResponse(
                 200,
                 'users in dataase', 
-                $this->model_name::getAllData($request),
+                $this->model_name::getAllData($request)
             );
     }
     public function getDataById(Request $request){
