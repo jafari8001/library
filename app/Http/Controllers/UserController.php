@@ -11,12 +11,14 @@ class UserController extends Controller
     protected $rules = [
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
+        'password' => 'required|string|max:255',
         'age' => 'required|integer|min:0',
         'gender' => 'required|in:male,female',
     ];
     protected $data_inputs = [
         "first_name",
         "last_name",
+        "password",
         "age",
         "gender"
     ];

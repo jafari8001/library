@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class BaseModel extends Model
 {
@@ -47,6 +48,10 @@ class BaseModel extends Model
         return $filtered_result['query']->paginate($filtered_result['row_number']);
     }
     public static function insertData($data){
+        if (isset($data['password'])) {
+            $pass = $data['password'];
+            $data['password'] = Hash::make($pass);
+        }
         $create = self::create($data);
         return $create;
     }

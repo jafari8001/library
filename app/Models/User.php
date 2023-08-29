@@ -11,6 +11,7 @@ class User extends BaseModel{
     protected $fillable =[
         "first_name",
         "last_name",
+        "password",
         "age",
         "gender",
     ];
