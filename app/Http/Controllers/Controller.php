@@ -80,6 +80,5 @@ class Controller extends BaseController{
             "Removing successfull",
             $this->model_name::deleteData($user));
     }
-
     
 }

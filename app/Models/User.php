@@ -11,6 +11,7 @@ class User extends BaseModel{
     protected $fillable =[
         "first_name",
         "last_name",
+        "phone_number",
         "password",
         "age",
         "gender",
@@ -18,5 +19,8 @@ class User extends BaseModel{
     
     public function loans(): HasMany{
         return $this->hasMany(Loan::class);   
+    }
+    public function tokens(): HasMany{
+        return $this->hasMany(Token::class);
     }
 }

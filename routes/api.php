@@ -4,7 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\book\BookController;
 use Illuminate\Support\Facades\Route;
 
-
+Route::post('user/login', [UserController::class, 'login']);
 Route::post('user', [UserController::class, 'listData'] );
 Route::post('user/show', [UserController::class, 'getDataById'] );
 Route::post('user/insert', [UserController::class, 'addData'] );

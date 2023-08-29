@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('phone_number');
             $table->string('password');
             $table->integer('age');
             $table->enum('gender', ['male', "fmale"])->default("male");
