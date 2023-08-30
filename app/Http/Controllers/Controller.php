@@ -26,7 +26,7 @@ class Controller extends BaseController{
     public function listData(Request $request){
         return showResponse(
                 200,
-                'users in dataase', 
+                'Data in dataase', 
                 $this->model_name::getAllData($request)
             );
     }
@@ -35,7 +35,7 @@ class Controller extends BaseController{
         if ($user == false) {
             return showResponse(
                 404,
-                "User not found"
+                "Data not found"
             );
         }
         return showResponse(
@@ -48,7 +48,7 @@ class Controller extends BaseController{
         $data = $request->only($this->data_inputs);
         return showResponse(
             200,
-            "Add user successfull",
+            "Add data successfull",
             $this->model_name::insertData($data)
         );
     }
@@ -57,13 +57,13 @@ class Controller extends BaseController{
         if ($user == false) {
             return showResponse(
                 404,
-                "User not found"
+                "Data not found"
             );
         }
         $data = $request->only($this->data_inputs);
         return showResponse(
             200,
-            "Edit user successfull",
+            "Edit Data successfull",
             $this->model_name::editData($data, $user)
         );
     }
