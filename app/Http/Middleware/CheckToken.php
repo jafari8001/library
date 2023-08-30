@@ -24,7 +24,6 @@ class CheckToken
             $user = Token::where('token', $request->header('token'))->first();
             if ($user) {
                 if ($user['expire_token'] > Carbon::now()) {
-                    Auth::login($user);
                     return $next($request);
                 }else {
                     throw new OutOfDateException();

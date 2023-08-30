@@ -13,7 +13,17 @@ class Role extends BaseModel
         "name"
     ];
 
+    public static function addRoleToUser($request){
+        $user = User::findDataById($request["user_id"]);
+        $role = Role::find($request["role_id"]);
+
+        return $user->roles()->save($role);
+    }
+
     public static function users(): BelongsToMany{
-        return Role::belongsToMany(User::class);
+        return Role::belongsToMany(User::class)->withTimestamps();
+    }    
+    public static function actions(): BelongsToMany{
+        return Role::belongsToMany(Action::class)->withTimestamps();
     }
 }

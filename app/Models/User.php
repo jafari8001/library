@@ -24,12 +24,12 @@ class User extends BaseModel{
     }
     
     public static function loans(): HasMany{
-        return User::hasMany(Loan::class);   
+        return User::hasMany(Loan::class)->withTimestamps();   
     }
     public static function tokens(): HasMany{
-        return User::hasMany(Token::class);
+        return User::hasMany(Token::class)->withTimestamps();
     }
-    public static function roles(): BelongsToMany{
-        return User::belongsToMany(Role::class);
+    public  function roles(): BelongsToMany{
+        return $this->belongsToMany(Role::class)->withTimestamps();
     }
 }

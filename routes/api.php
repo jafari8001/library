@@ -15,6 +15,7 @@ Route::middleware("check.token")->prefix("user")->group(function(){
     Route::post('/update', [UserController::class, 'editData']);
     Route::post('/count_loan', [UserController::class, 'countLoan'] );
     Route::post('/role/insert', [RoleController::class, 'addData']);
+    Route::post('/role/add', [RoleController::class, "addRoleToUser"]);
 });
 
 
