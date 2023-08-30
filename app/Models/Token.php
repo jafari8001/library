@@ -14,7 +14,6 @@ class Token extends Model
         "token",
         "expire_token"
     ];
-
     public static function insertToken($data){
         $token = Token::create($data);
         return $token;

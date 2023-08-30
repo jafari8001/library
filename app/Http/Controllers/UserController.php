@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -34,30 +33,28 @@ class UserController extends Controller
             'phone_number' => 'required|string|max:255',
             'password' => 'required|string|max:255',
         ]);
-        $user = $this->checkUserExist($request);
+        $user = UserService::checkUserExist($request);
         if ($user) {
             $data = [
                 "user_id"=> $user['id'],
-                "token"=> TokenController::genrateToken(),
+                "token"=> UserService::genrateToken(),
                 "expire_token"=> Carbon::now()->addDays(30),
             ];
-            return Token::insertToken($data);
+            return showResponse(
+                200,
+                "Token created",
+                Token::insertToken($data)
+            );
         }
-        return "user not found";
-    }
-    public function checkUserExist($request){
-        $user = User::where('phone_number', $request['phone_number'])->first();
-        $plain_text = $request->password;
-        $pass = $user->password;
-        if (Hash::check($plain_text, $pass)) {
-            return $user;
-        }
-        return false;
+        return showResponse(
+            404,
+            "User not found"
+        );
     }
     
     public function countLoan(Request $request){
-        $load_number = UserService::getLoanCount($request->id);
-        return Response()->json($load_number);
+        $loan_number = UserService::getLoanCount($request->id);
+        return Response()->json($loan_number);
     }
 
 }

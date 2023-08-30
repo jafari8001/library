@@ -16,11 +16,16 @@ class User extends BaseModel{
         "age",
         "gender",
     ];
-    
-    public function loans(): HasMany{
-        return $this->hasMany(Loan::class);   
+
+    public static function getUserByPhoneNumber($request){
+        $user = User::where('phone_number', $request['phone_number'])->first();
+        return  $user ? $user : false;
     }
-    public function tokens(): HasMany{
-        return $this->hasMany(Token::class);
+    
+    public static function loans(): HasMany{
+        return User::hasMany(Loan::class);   
+    }
+    public static function tokens(): HasMany{
+        return User::hasMany(Token::class);
     }
 }

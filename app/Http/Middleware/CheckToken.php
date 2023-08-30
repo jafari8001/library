@@ -6,6 +6,7 @@ use App\Exceptions\NotFoundException;
 use App\Exceptions\NotSetException;
 use App\Exceptions\OutOfDateException;
 use App\Models\Token;
+use Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -23,6 +24,7 @@ class CheckToken
             $user = Token::where('token', $request->header('token'))->first();
             if ($user) {
                 if ($user['expire_token'] > Carbon::now()) {
+                    Auth::login($user);
                     return $next($request);
                 }else {
                     throw new OutOfDateException();

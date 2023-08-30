@@ -41,7 +41,6 @@ class BaseModel extends Model
             'row_number' => $row_number
         ];
     }
-
     public static function getAllData($request){
         $query = self::query();
         $filtered_result = self::filterRequest($query,$request);
