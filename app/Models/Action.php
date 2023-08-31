@@ -9,7 +9,19 @@ class Action extends BaseModel
 {
     use HasFactory;
 
-    public static function roles(): BelongsToMany{
-        return Action::belongsToMany(Role::class);
+    protected $fillable=[
+        "route_name",
+        "fa_name"
+    ];
+
+    public static function addActionToRole($request){
+        $user = Action::findDataById($request["action_id"]);
+        $role = Role::find($request["role_id"]);
+
+        return $user->roles()->save($role);
+    }
+
+    public function roles(): BelongsToMany{
+        return $this->belongsToMany(Role::class);
     }
 }

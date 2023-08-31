@@ -23,7 +23,7 @@ class Role extends BaseModel
     public static function users(): BelongsToMany{
         return Role::belongsToMany(User::class)->withTimestamps();
     }    
-    public static function actions(): BelongsToMany{
-        return Role::belongsToMany(Action::class)->withTimestamps();
+    public function actions(): BelongsToMany{
+        return $this->belongsToMany(Action::class)->withTimestamps();
     }
 }

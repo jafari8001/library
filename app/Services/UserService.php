@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\User;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserService {
 
@@ -20,6 +21,9 @@ class UserService {
     public static function genrateToken(){
         $result = bin2hex(random_bytes(32));
         return $result;
+    }
+    public static function chechPermision($user){
+        dd($user);
     }
     public static function getLoanCount($id){
         return User::find($id)->loans()->count();
