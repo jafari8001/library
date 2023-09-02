@@ -13,8 +13,11 @@ class Loan extends Model
     protected $fillable =[
         "user_id",
         "book_id",
+        "loan_date",
         "return_date",
     ];
+
+    
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);

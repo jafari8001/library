@@ -33,6 +33,15 @@ class User extends BaseModel implements Authenticatable{
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    public function isAdmin(){
+        return $this->roles->first()->name === "admin";
+    }
+
+
+
+
+
+
     public function getAuthIdentifierName()
     {
         return 'phone_number';

@@ -25,7 +25,7 @@ class CheckToken
 
             if ($token) {
                 if ($token['expire_token'] > Carbon::now()) {
-                    $user = User::findDataById($token["user_id"])->first();
+                    $user = User::findDataById($token["user_id"]);
                     Auth::login($user);
                     return $next($request);
                 }else {

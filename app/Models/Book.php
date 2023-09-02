@@ -20,52 +20,6 @@ class Book extends Model
         "available",
         "category_id",
     ];
-
-    public static function insertBook($data){
-        
-        $create = Book::create($data);
-        return[
-                "status"=>'200',
-                "message"=>'Book created',
-                "data"=> $create,
-        ];
-    }
-    public static function getAllBooks(){
-        return Book::all();
-    }
-    public static function editBook($data, $book){
-        try {
-            $book->update($data);
-            return [
-                'status'=> 201,
-                'message'=>'updating Book successfull',
-                'data'=>$data
-            ];
-        } catch (Exception $err) {
-                return Response()->json([
-                'status'=> $err->getCode(),
-                'message'=>$err->getMessage(),
-                'data'=>''
-            ]);
-        }
-    }
-    public static function deleteBook($book){
-        $del = $book->delete();
-
-        if($del){
-            return [
-                'status'=> 201,
-                'message'=> 'Book removing seccessful',
-                'data'=> "",
-            ];
-        }else {
-            return[
-                'status'=> 400,
-                'message'=> 'Book removing faild',
-                'data'=> "",
-            ];
-        }
-    }
     public static function findBookById($id){
         return Book::find($id)->first();
     }

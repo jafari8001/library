@@ -8,7 +8,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class checkPermision
@@ -21,8 +20,11 @@ class checkPermision
     public function handle(Request $request, Closure $next): Response
     {
         $uri = Route::getFacadeRoot()->current()->uri();
-        $user = Auth::user()->id;
-        $query = User::where("users.id", $user)
+        $user = Auth::user();
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+        $query = User::where("users.id", $user->id)
         ->join("role_user", "user_id", "users.id")
         ->join("roles", "roles.id", "role_user.user_id")
         ->join("action_role", "action_role.role_id", "roles.id")

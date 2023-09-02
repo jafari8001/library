@@ -10,11 +10,11 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {   
-        User::factory()->create([
+        User::insertData([
             "first_name"=> "ali",
             "last_name"=> "jafari",
             "phone_number"=> "09933861217",
-            "password"=> "$2y$10$6d1rLQd0qCxpgpTKGFeN0ulMJ.J5Uw7ItJvzsJtMiCKWIImyR/1SK",
+            "password"=> "jafari8001@",
             "age"=> "22",
             "gender"=> "male",
         ]);
