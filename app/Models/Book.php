@@ -19,6 +19,13 @@ class Book extends BaseModel
         "category_id",
     ];
 
+    public static function checkAvailable($id){
+        $book = Book::findDataById($id);
+        if ($book["available"] <= 1) {
+            return false;
+        }
+        return true;
+    }
     public function category(): BelongsTo{
         return $this->belongsTo(Category::class);
     }

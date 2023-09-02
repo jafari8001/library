@@ -52,18 +52,18 @@ class Controller extends BaseController{
         );
     }
     public function editData(Request $request){
-        $user = $this->model_name::findDataById($request->id);
-        if ($user == false) {
+        $data = $this->model_name::findDataById($request->id);
+        if ($data == false) {
             return showResponse(
                 404,
                 "Data not found"
             );
         }
-        $data = $request->only($this->data_inputs);
+        $send_request = $request->only($this->data_inputs);
         return showResponse(
             200,
             "Edit Data successfull",
-            $this->model_name::editData($data, $user)
+            $this->model_name::editData($send_request, $data)
         );
     }
     public function deleteData(Request $request){

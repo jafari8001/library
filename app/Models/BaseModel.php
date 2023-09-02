@@ -54,9 +54,9 @@ class BaseModel extends Model
         $create = self::create($data);
         return $create;
     }
-    public static function editData($data, $user){
-        $user->update($data);
-        return $user;
+    public static function editData($send_request, $data){
+        $data->update($send_request);
+        return $data;
     }
     public static function deleteData($user){
         $user->delete();
