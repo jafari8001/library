@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Loan extends Model
+class Loan extends BaseModel
 {
     use HasFactory;
 
@@ -16,8 +15,6 @@ class Loan extends Model
         "loan_date",
         "return_date",
     ];
-
-    
 
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);

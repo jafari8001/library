@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\book\BookController;
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('user/login', [UserController::class, 'login']);
@@ -21,7 +23,6 @@ Route::middleware(["check.token", "check.permision"])->prefix("user")->group(fun
     Route::post('/action/add', [ActionController::class, "addActionToRole"]);
 });
 
-
-
-
-Route::post('book/insert', [BookController::class, 'addBook']);
+Route::post('book/insert',  [BookController::class, 'addData']);
+Route::post('book/category/insert',  [CategoryController::class, 'addData']);
+Route::post('book/loan/insert',  [LoanController::class, 'addLoan']);

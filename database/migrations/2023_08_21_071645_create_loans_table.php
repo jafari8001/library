@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
-            $table->date('loan_date')->useCurrent();
+            $table->date('loan_date');
             $table->date('return_date');
             $table->timestamps();
 
