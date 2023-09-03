@@ -24,4 +24,12 @@ class BookController extends Controller
         "category_id",
     ];
     protected $model_name = Book::class;
+
+    public function showBooksWithCategory(){
+        return showResponse(
+            200,
+            "All books",
+            $this->model_name::showBooksWithCategory());
+    }
+
 }

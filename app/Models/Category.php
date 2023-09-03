@@ -12,6 +12,11 @@ class Category extends BaseModel
         "name"
     ];
 
+    public static function showCategoryWithBooks(){
+        return Category::with(['books' => function ($query) {
+            $query->select('id', 'title', 'category_id');
+        }])->get(['id', 'name']);
+    }
     public function books():HasMany{
         return $this->hasMany(Book::class);
     }

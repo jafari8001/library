@@ -23,6 +23,10 @@ Route::middleware(["check.token", "check.permision"])->prefix("user")->group(fun
     Route::post('/action/add', [ActionController::class, "addActionToRole"]);
 });
 
+Route::post('book/',  [BookController::class, 'showBooksWithCategory']);
 Route::post('book/insert',  [BookController::class, 'addData']);
+Route::post('book/categories',  [CategoryController::class, 'showCategoryWithBooks']);
 Route::post('book/category/insert',  [CategoryController::class, 'addData']);
+Route::post('book/loans',  [LoanController::class, 'showLoan']);
+Route::post('book/loans/delayed',  [LoanController::class, 'loanDelayed']);
 Route::post('book/loan/insert',  [LoanController::class, 'addLoan']);

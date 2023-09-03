@@ -13,6 +13,7 @@ class LoanController extends Controller
         'user_id' => 'required|integer',
         'book_id' => 'required|integer',
     ];
+    protected $model_name = Loan::class;
     public function addLoan(Request $request){
         $this->validateRequest($request, $this->rules);
         // data for send to save in loan
@@ -20,7 +21,7 @@ class LoanController extends Controller
             "user_id" =>  $request["user_id"],
             "book_id" => $request["book_id"],
             "loan_date" => Carbon::now(),
-            "return_date" => Carbon::now()->addDays(20),
+            "return_date" => Carbon::now()->addDays($request["return_date"]),
         ];
         // find and get book data
         $book_data = Book::findDataById($request["book_id"]);
@@ -46,5 +47,17 @@ class LoanController extends Controller
             $this->model_name::insertData($data)
         );
     }
-    protected $model_name = Loan::class;
+    public function showLoan(){
+        return showResponse(
+            200,
+            "All loans",
+            $this->model_name::showLoan());
+    }
+    public function loanDelayed(){
+        return showResponse(
+            200,
+            "delayed loans",
+            $this->model_name::loanDelayed());
+    }
+    
 }

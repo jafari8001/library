@@ -26,6 +26,11 @@ class Book extends BaseModel
         }
         return true;
     }
+    public static function showBooksWithCategory(){
+        return Book::with(['category'=> function($query){
+            $query->select("id", "name");
+        }])->get();
+    }
     public function category(): BelongsTo{
         return $this->belongsTo(Category::class);
     }

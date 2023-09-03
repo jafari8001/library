@@ -14,4 +14,11 @@ class CategoryController extends Controller
         "name"
     ];
     protected $model_name = Category::class;
+
+    public function showCategoryWithBooks(){
+        return showResponse(
+            200,
+            "All categories",
+            $this->model_name::showCategoryWithBooks());
+    }
 }
