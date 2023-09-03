@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotFoundUserExeption;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Exceptions\ValidationException;
@@ -33,10 +34,7 @@ class Controller extends BaseController{
     public function getDataById(Request $request){
         $user = $this->model_name::findDataById($request['id']);
         if ($user == false) {
-            return showResponse(
-                404,
-                "User not found"
-            );
+            throw new NotFoundUserExeption();
         }
         return showResponse(
             200,
@@ -55,10 +53,7 @@ class Controller extends BaseController{
     public function editData(Request $request){
         $user = $this->model_name::findDataById($request->id);
         if ($user == false) {
-            return showResponse(
-                404,
-                "User not found"
-            );
+            throw new NotFoundUserExeption();
         }
         $data = $request->only($this->data_inputs);
         return showResponse(
@@ -70,10 +65,7 @@ class Controller extends BaseController{
     public function deleteData(Request $request){
         $user = $this->model_name::findDataById($request['id']);
         if ($user == false) {
-            return showResponse(
-                404,
-                "User not found"
-            );
+            throw new NotFoundUserExeption();
         }
         return showResponse(
             200,
