@@ -59,5 +59,13 @@ class LoanController extends Controller
             "delayed loans",
             $this->model_name::loanDelayed());
     }
-    
+    public function loanInDate(Request $request){
+        $this->validateRequest($request, [
+            "loan_date"=> "required|string"
+        ]);
+        return showResponse(
+            200,
+            "delayed loans",
+            $this->model_name::loanInDate($request));
+    }
 }

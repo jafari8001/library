@@ -14,10 +14,8 @@ class Role extends BaseModel
     ];
 
     public static function addRoleToUser($request){
-        $user = User::findDataById($request["user_id"]);
-        $role = Role::find($request["role_id"]);
-
-        return $user->roles()->save($role);
+        $model = User::find($request['user_id']);
+        $model->roles()->sync($request->role_id);
     }
 
     public static function users(): BelongsToMany{

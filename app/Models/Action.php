@@ -15,10 +15,8 @@ class Action extends BaseModel
     ];
 
     public static function addActionToRole($request){
-        $user = Action::findDataById($request["action_id"]);
-        $role = Role::find($request["role_id"]);
-
-        return $user->roles()->save($role);
+        $model = Role::find($request['role_id']);
+        $model->actions()->sync($request->action_id);
     }
 
     public function roles(): BelongsToMany{

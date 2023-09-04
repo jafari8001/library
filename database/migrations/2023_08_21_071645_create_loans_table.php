@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('loans', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
             $table->date('loan_date');

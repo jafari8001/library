@@ -23,10 +23,27 @@ Route::middleware(["check.token", "check.permision"])->prefix("user")->group(fun
     Route::post('/action/add', [ActionController::class, "addActionToRole"]);
 });
 
-Route::post('book/',  [BookController::class, 'showBooksWithCategory']);
-Route::post('book/insert',  [BookController::class, 'addData']);
-Route::post('book/categories',  [CategoryController::class, 'showCategoryWithBooks']);
-Route::post('book/category/insert',  [CategoryController::class, 'addData']);
-Route::post('book/loans',  [LoanController::class, 'showLoan']);
-Route::post('book/loans/delayed',  [LoanController::class, 'loanDelayed']);
-Route::post('book/loan/insert',  [LoanController::class, 'addLoan']);
+Route::middleware(["check.token", "check.permision"])->prefix("book")->group(function(){
+    Route::post('/',  [BookController::class, 'listData']);
+    Route::post('/insert',  [BookController::class, 'addData']);
+    Route::post('/show',  [BookController::class, 'getDataById']);
+    Route::post('/delete',  [BookController::class, 'deleteData']);
+    Route::post('/update',  [BookController::class, 'editData']);
+});
+
+Route::middleware(["check.token", "check.permision"])->prefix("category")->group(function(){
+    Route::post('/',  [CategoryController::class, 'listData']);
+    Route::post('/insert',  [CategoryController::class, 'addData']);
+    Route::post('/show',  [CategoryController::class, 'getDataById']);
+    Route::post('/delete',  [CategoryController::class, 'deleteData']);
+    Route::post('/update',  [CategoryController::class, 'editData']);
+});
+
+Route::middleware(["check.token", "check.permision"])->prefix("loan")->group(function(){
+    Route::post('/',  [LoanController::class, 'listData']);
+    Route::post('/delayed',  [LoanController::class, 'loanDelayed']);
+    Route::post('/in_date',  [LoanController::class, 'loanInDate']);
+    Route::post('/insert',  [LoanController::class, 'addLoan']);
+    Route::post('/delete',  [LoanController::class, 'deleteData']);
+});
+

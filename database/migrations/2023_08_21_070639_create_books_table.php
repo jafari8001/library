@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->date('publish_date');
-            $table->string('barcode');
+            $table->string('barcode')->nullable();
             $table->integer('available');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();

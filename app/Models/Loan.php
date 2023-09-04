@@ -17,13 +17,17 @@ class Loan extends BaseModel
         "return_date",
     ];
 
-    public static function showLoan(){
-        return Loan::with(['user' => function ($query) {
+    public static function getAllData($request){
+        $query = self::query();
+        $filtered_result = self::filterRequest($query,$request);
+        return $filtered_result['query']
+        ->with(['user' => function ($query) {
             $query->select('id', 'first_name', 'last_name', 'phone_number');
         }])
         ->with(['book' => function ($query) {
             $query->select('id', 'title', "category_id");
-        }])->get(['id', 'user_id', 'book_id', 'loan_date', 'return_date']);
+        }])
+        ->paginate($filtered_result['row_number']);
     }
     public static function loanDelayed(){
         return Loan::where('return_date', "<=", Carbon::now())
@@ -34,6 +38,9 @@ class Loan extends BaseModel
             $query->select('id', 'title', "category_id");
         }])
         ->get(['id', 'user_id', 'book_id', 'loan_date', 'return_date']);
+    }
+    public static function loanInDate($request){
+        return Loan::where("loan_date", "=", $request->loan_date)->paginate();
     }
     public function user(): BelongsTo{
         return $this->belongsTo(User::class);

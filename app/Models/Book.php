@@ -19,17 +19,20 @@ class Book extends BaseModel
         "category_id",
     ];
 
+    public static function getAllData($request){
+        $query = self::query();
+        $filtered_result = self::filterRequest($query,$request);
+        return $filtered_result['query']
+        ->with(['category'=> function($query){
+            $query->select("id", "name");
+        }])->paginate($filtered_result['row_number']);
+    }
     public static function checkAvailable($id){
         $book = Book::findDataById($id);
         if ($book["available"] <= 1) {
             return false;
         }
         return true;
-    }
-    public static function showBooksWithCategory(){
-        return Book::with(['category'=> function($query){
-            $query->select("id", "name");
-        }])->get();
     }
     public function category(): BelongsTo{
         return $this->belongsTo(Category::class);
