@@ -22,14 +22,20 @@ class Book extends BaseModel
     public static function getAllData($request){
         $query = self::query();
         $filtered_result = self::filterRequest($query,$request);
-        return $filtered_result['query']
-        ->with(['category'=> function($query){
-            $query->select("id", "name");
-        }])->paginate($filtered_result['row_number']);
+        
+        $result = $filtered_result['query']
+        ->with('category' , fn($query) => $query->select("id", "name"));
+
+        if (isset($request->filters["category_name"])) {
+            $result->whereHas('category', function($query) use ($request){
+                $query->where('name', $request->filters['category_name']);
+            });
+        }
+        return $result->paginate($filtered_result['row_number']);
     }
     public static function checkAvailable($id){
         $book = Book::findDataById($id);
-        if ($book["available"] <= 1) {
+        if ($book["available"] <= env('MINIMUM_BOOK_NUMBER')) {
             return false;
         }
         return true;
@@ -37,7 +43,7 @@ class Book extends BaseModel
     public function category(): BelongsTo{
         return $this->belongsTo(Category::class);
     }
-    public function loans():HasMany{
+    public function loans(): HasMany{
         return $this->hasMany(Loan::class);
     }
 }

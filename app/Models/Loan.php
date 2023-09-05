@@ -21,29 +21,28 @@ class Loan extends BaseModel
         $query = self::query();
         $filtered_result = self::filterRequest($query,$request);
         return $filtered_result['query']
-        ->with(['user' => function ($query) {
-            $query->select('id', 'first_name', 'last_name', 'phone_number');
-        }])
-        ->with(['book' => function ($query) {
-            $query->select('id', 'title', "category_id");
-        }])
-        ->paginate($filtered_result['row_number']);
+            ->with([
+                'user',
+                'book' => function ($query) {
+                    $query->select('id', 'title', "category_id");
+                }])
+            ->paginate($filtered_result['row_number']);
     }
     public static function loanDelayed(){
         return Loan::where('return_date', "<=", Carbon::now())
-        ->with(['user' => function ($query) {
-            $query->select('id', 'first_name', 'last_name', 'phone_number');
-        }])
-        ->with(['book' => function ($query) {
-            $query->select('id', 'title', "category_id");
-        }])
-        ->get(['id', 'user_id', 'book_id', 'loan_date', 'return_date']);
+            ->with(['user'])
+            ->with(['book' => function ($query) {
+                $query->select('id', 'title', "category_id");
+            }])
+            ->get(['id', 'user_id', 'book_id', 'loan_date', 'return_date']);
     }
     public static function loanInDate($request){
         return Loan::where("loan_date", "=", $request->loan_date)->paginate();
     }
+    
     public function user(): BelongsTo{
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->select('id', 'first_name', 'last_name', 'phone_number');
     }
     public function book(): BelongsTo{
         return $this->belongsTo(Book::class);

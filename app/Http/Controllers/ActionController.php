@@ -22,10 +22,13 @@ class ActionController extends Controller
             'action_id' => 'required',
             'role_id' => 'required'
         ]);
+        
+        $result = $this->model_name::addActionToRole($request);
+
         return showResponse(
             200,
             'Role added to user', 
-            $this->model_name::addActionToRole($request)
+            $result
         );
     }
 }

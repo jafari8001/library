@@ -34,7 +34,7 @@ class User extends BaseModel implements Authenticatable{
     }
 
     public function isAdmin(){
-        return $this->roles->first()->name === "admin";
+        return $this->roles->contains('name',"admin");
     }
 
 

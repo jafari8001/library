@@ -45,5 +45,7 @@ Route::middleware(["check.token", "check.permision"])->prefix("loan")->group(fun
     Route::post('/in_date',  [LoanController::class, 'loanInDate']);
     Route::post('/insert',  [LoanController::class, 'addLoan']);
     Route::post('/delete',  [LoanController::class, 'deleteData']);
+    // deliver
+    
 });
 

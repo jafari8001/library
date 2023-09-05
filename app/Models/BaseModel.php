@@ -14,6 +14,9 @@ class BaseModel extends Model
         }
         if (isset($request['filters'])) {
             foreach ($request['filters'] as $key => $value) {
+                if ($key == "category_name") {
+                    continue;
+                }
                 if(isset($value['operation'])){
                     switch ($value['operation']) {
                         case 'in':

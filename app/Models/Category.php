@@ -16,11 +16,12 @@ class Category extends BaseModel
         $query = self::query();
         $filtered_result = self::filterRequest($query,$request);
         return $filtered_result['query']
-        ->with(['books' => function ($query) {
-            $query->select('id', 'title', 'category_id');
-        }])->paginate($filtered_result['row_number']);
+            ->with(['books' => function ($query) {
+                $query->select('id', 'title', 'category_id');
+            }])
+            ->paginate($filtered_result['row_number']);
     }
-    public function books():HasMany{
+    public function books(): HasMany{
         return $this->hasMany(Book::class);
     }
 }
