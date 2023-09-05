@@ -7,15 +7,17 @@ use Illuminate\Support\Facades\Hash;
 
 class BaseModel extends Model
 {
-    public static function filterRequest($query,$request){
+    public static function filterRequest($query,$request,$columns = []){
         $row_number = 10;
         if (isset($request['row_number'])) {
             $row_number = $request['row_number'];
         }
         if (isset($request['filters'])) {
             foreach ($request['filters'] as $key => $value) {
-                if ($key == "category_name") {
+                if (!in_array($key,array_keys($columns))) {
                     continue;
+                }else{
+                    $key = $columns[$key];
                 }
                 if(isset($value['operation'])){
                     switch ($value['operation']) {

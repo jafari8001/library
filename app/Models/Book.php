@@ -19,18 +19,28 @@ class Book extends BaseModel
         "category_id",
     ];
 
+    public static $columns = [
+        'id' =>  'books.id',
+        'title' =>  'books.title',
+        'author' =>  'books.author',
+        'publish_date' =>  'books.publish_date',
+        'barcode' =>  'books.barcode',
+        'available' =>  'books.available',
+        'category_id' =>  'books.category_id',
+        'category_name' =>  'categories.name'
+    ];
+
     public static function getAllData($request){
         $query = self::query();
-        $filtered_result = self::filterRequest($query,$request);
-        
-        $result = $filtered_result['query']
-        ->with('category' , fn($query) => $query->select("id", "name"));
+        $filtered_result = self::filterRequest($query,$request,self::$columns);
 
-        if (isset($request->filters["category_name"])) {
-            $result->whereHas('category', function($query) use ($request){
-                $query->where('name', $request->filters['category_name']);
-            });
-        }
+        $result = $filtered_result['query']
+            ->join('categories','categories.id' , '=' , 'books.category_id')
+            ->select(
+                'books.*',
+                'categories.id as category_id',
+                'categories.name as category_name',
+            );  
         return $result->paginate($filtered_result['row_number']);
     }
     public static function checkAvailable($id){
