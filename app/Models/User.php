@@ -17,12 +17,25 @@ class User extends BaseModel implements Authenticatable{
         "age",
         "gender",
     ];
+    public static $columns = [
+        'id' =>  'users.id',
+        'first_name' =>  'users.first_name',
+        'last_name' =>  'users.last_name',
+        'phone_number' =>  'users.phone_number',
+        'age' =>  'users.age',
+        'gender' =>  'users.gender'
+    ];
+
+    public static function getAllData($request){
+        $query = self::query();
+        $filtered_result = self::filterRequest($query,$request, self::$columns);
+        return $filtered_result['query']->paginate($filtered_result['row_number']);
+    }
 
     public static function getUserByPhoneNumber($request){
         $user = User::where('phone_number', $request['phone_number'])->first();
         return  $user ? $user : false;
     }
-    
     public function loans(): HasMany{
         return $this->hasMany(Loan::class)->withTimestamps();   
     }

@@ -17,9 +17,16 @@ class Loan extends BaseModel
         "return_date",
     ];
 
+    public static $columns = [
+        'id' =>  'loans.id',
+        'user_id' =>  'loans.user_id',
+        'book_id' =>  'loans.book_id',
+        'loan_date' =>  'loans.loan_date',
+        'return_date' =>  'loans.return_date',
+    ];
     public static function getAllData($request){
         $query = self::query();
-        $filtered_result = self::filterRequest($query,$request);
+        $filtered_result = self::filterRequest($query, $request, self::$columns);
         return $filtered_result['query']
             ->with([
                 'user',

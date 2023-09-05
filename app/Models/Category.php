@@ -11,14 +11,15 @@ class Category extends BaseModel
     protected $fillable = [
         "name"
     ];
-    
+    public static $columns = [
+        'id' =>  'categories.id',
+        'name' =>  'categories.name'
+    ];
     public static function getAllData($request){
         $query = self::query();
-        $filtered_result = self::filterRequest($query,$request);
+        $filtered_result = self::filterRequest($query, $request, self::$columns);
         return $filtered_result['query']
-            ->with(['books' => function ($query) {
-                $query->select('id', 'title', 'category_id');
-            }])
+            ->with('books', fn($query) => $query->select('id', 'title', 'category_id'))
             ->paginate($filtered_result['row_number']);
     }
     public function books(): HasMany{

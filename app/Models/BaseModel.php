@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Hash;
 
 class BaseModel extends Model
 {
-    public static function filterRequest($query,$request,$columns = []){
+
+    // protected static $columns = [];
+    public static function filterRequest($query, $request, $columns){
         $row_number = 10;
         if (isset($request['row_number'])) {
             $row_number = $request['row_number'];
@@ -46,11 +48,11 @@ class BaseModel extends Model
             'row_number' => $row_number
         ];
     }
-    public static function getAllData($request){
-        $query = self::query();
-        $filtered_result = self::filterRequest($query,$request);
-        return $filtered_result['query']->paginate($filtered_result['row_number']);
-    }
+    // public static function getAllData($request){
+    //     $query = self::query();
+    //     $filtered_result = self::filterRequest($query,$request, self::$columns);
+    //     return $filtered_result['query']->paginate($filtered_result['row_number']);
+    // }
     public static function insertData($data){
         if (isset($data['password'])) {
             $pass = $data['password'];

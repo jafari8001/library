@@ -18,7 +18,6 @@ class Book extends BaseModel
         "available",
         "category_id",
     ];
-
     public static $columns = [
         'id' =>  'books.id',
         'title' =>  'books.title',
@@ -26,21 +25,17 @@ class Book extends BaseModel
         'publish_date' =>  'books.publish_date',
         'barcode' =>  'books.barcode',
         'available' =>  'books.available',
-        'category_id' =>  'books.category_id',
         'category_name' =>  'categories.name'
     ];
-
     public static function getAllData($request){
         $query = self::query();
-        $filtered_result = self::filterRequest($query,$request,self::$columns);
-
+        $filtered_result = self::filterRequest($query, $request, self::$columns);
         $result = $filtered_result['query']
-            ->join('categories','categories.id' , '=' , 'books.category_id')
-            ->select(
-                'books.*',
-                'categories.id as category_id',
-                'categories.name as category_name',
-            );  
+        ->join('categories','categories.id' , '=' , 'books.category_id')
+        ->select(
+            'books.*',
+            'categories.name as category_name'
+        );  
         return $result->paginate($filtered_result['row_number']);
     }
     public static function checkAvailable($id){
