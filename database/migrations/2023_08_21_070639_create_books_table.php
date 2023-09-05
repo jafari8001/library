@@ -9,14 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void{
         Schema::create('books', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('author');
             $table->date('publish_date');
-            $table->string('barcode');
+            $table->string('barcode')->nullable();
             $table->integer('available');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();

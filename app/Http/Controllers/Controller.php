@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\NotFoundUserExeption;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use App\Exceptions\ValidationException;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,7 @@ class Controller extends BaseController{
     public function listData(Request $request){
         return showResponse(
                 200,
-                'users in dataase', 
+                'Data in dataase', 
                 $this->model_name::getAllData($request)
             );
     }
@@ -46,7 +47,7 @@ class Controller extends BaseController{
         $data = $request->only($this->data_inputs);
         return showResponse(
             200,
-            "Add user successfull",
+            "Add data successfull",
             $this->model_name::insertData($data)
         );
     }
@@ -55,11 +56,11 @@ class Controller extends BaseController{
         if ($user == false) {
             throw new NotFoundUserExeption();
         }
-        $data = $request->only($this->data_inputs);
+        $send_request = $request->only($this->data_inputs);
         return showResponse(
             200,
-            "Edit user successfull",
-            $this->model_name::editData($data, $user)
+            "Edit Data successfull",
+            $this->model_name::editData($send_request, $data)
         );
     }
     public function deleteData(Request $request){

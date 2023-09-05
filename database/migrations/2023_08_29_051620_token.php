@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void{
         Schema::create('tokens', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('token');
-            $table->date('expire_token')->useCurrent();
+            $table->date('expire_token');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

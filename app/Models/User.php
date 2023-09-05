@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class User extends BaseModel{
+use Illuminate\Contracts\Auth\Authenticatable;
+class User extends BaseModel implements Authenticatable{
     use HasFactory;
 
     protected $fillable =[
@@ -22,10 +23,52 @@ class User extends BaseModel{
         return  $user ? $user : false;
     }
     
-    public static function loans(): HasMany{
-        return User::hasMany(Loan::class);   
+    public function loans(): HasMany{
+        return $this->hasMany(Loan::class)->withTimestamps();   
     }
-    public static function tokens(): HasMany{
-        return User::hasMany(Token::class);
+    public function tokens(): HasMany{
+        return $this->hasMany(Token::class)->withTimestamps();
+    }
+    public function roles(): BelongsToMany{
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function isAdmin(){
+        return $this->roles->contains('name',"admin");
+    }
+
+
+
+
+
+
+    public function getAuthIdentifierName()
+    {
+        return 'phone_number';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
+
+    public function getRememberTokenName()
+    {
+        return 'remember_token';
     }
 }

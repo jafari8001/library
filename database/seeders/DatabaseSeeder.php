@@ -2,21 +2,27 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::insertData([
+            "first_name"=> "ali",
+            "last_name"=> "jafari",
+            "phone_number"=> "09933861217",
+            "password"=> "jafari8001@",
+            "age"=> "22",
+            "gender"=> "male",
+        ]);
+        Role::insertData([
+            "name"=> "admin",
+        ]);
+        $user = User::findDataById(1);
+        $role = Role::find(1);
+        $user->roles()->save($role);
     }
 }
