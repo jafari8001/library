@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         Role::insertData([
             "name"=> "admin",
         ]);
-        $user = User::findDataById(1);
-        $role = Role::find(1);
-        $user->roles()->save($role);
+        // $user = User::findDataById(1);
+        // $role = Role::find(1);
+        // $user->roles()->save($role);
     }
 }

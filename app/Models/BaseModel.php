@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model
 {
-
-    // protected static $columns = [];
+    use SoftDeletes;
     public static function filterRequest($query, $request, $columns){
         $row_number = 10;
         if (isset($request['row_number'])) {
@@ -48,11 +48,6 @@ class BaseModel extends Model
             'row_number' => $row_number
         ];
     }
-    // public static function getAllData($request){
-    //     $query = self::query();
-    //     $filtered_result = self::filterRequest($query,$request, self::$columns);
-    //     return $filtered_result['query']->paginate($filtered_result['row_number']);
-    // }
     public static function insertData($data){
         if (isset($data['password'])) {
             $pass = $data['password'];

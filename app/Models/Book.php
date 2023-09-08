@@ -40,7 +40,7 @@ class Book extends BaseModel
     }
     public static function checkAvailable($id){
         $book = Book::findDataById($id);
-        if ($book["available"] <= env('MINIMUM_BOOK_NUMBER')) {
+        if ($book["available"] < env('MINIMUM_BOOK_NUMBER')) {
             return false;
         }
         return true;

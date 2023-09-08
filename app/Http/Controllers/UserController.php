@@ -7,9 +7,13 @@ use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    protected $casts = [
+    'id' => 'uuid',
+];
     protected $rules = [
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
@@ -36,10 +40,11 @@ class UserController extends Controller
         $user = UserService::checkUserExist($request);
         if ($user) {
             $data = [
-                "user_id"=> $user['id'],
+                "user_id"=> $user->id,
                 "token"=> UserService::genrateToken(),
                 "expire_token"=> Carbon::now()->addDays(30),
             ];
+            dd($user->getKey());
             return showResponse(
                 200,
                 "Token created",

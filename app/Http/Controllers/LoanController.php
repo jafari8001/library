@@ -47,12 +47,6 @@ class LoanController extends Controller
             $this->model_name::insertData($data)
         );
     }
-    public function showLoan(){
-        return showResponse(
-            200,
-            "All loans",
-            $this->model_name::showLoan());
-    }
     public function loanDelayed(){
         return showResponse(
             200,
@@ -67,5 +61,22 @@ class LoanController extends Controller
             200,
             "delayed loans",
             $this->model_name::loanInDate($request));
+    }
+    public function deliverLoan(Request $request){
+        self::validateRequest($request, [
+            "book_id" => "required|integer",
+            "user_id" => "required|integer",
+            "delivery_date" => "string"
+        ]);
+        $book_data = Book::findDataById($request["book_id"]);
+        $loan_data = Loan::findLoanByUserAndBook($request);
+        Book::editData( ["available" => $book_data["available"] + 1] ,$book_data);
+        Loan::editData([
+            "delivery_date" => ($request["delivery_date"]) ? $request["delivery_date"] : Carbon::now(),
+            "status" => "delivered"
+        ], $loan_data);
+        return showResponse(
+            200,
+            "Book delivered");
     }
 }

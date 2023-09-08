@@ -12,11 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('loans', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('book_id');
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
+            $table->uuid('user_id');
+            $table->uuid('book_id');
             $table->date('loan_date');
             $table->date('return_date');
+            $table->enum('status',["borrowed", "delivered"])->default("borrowed");
+            $table->date('delivery_date')->nullable();
+            $table->uuid('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on("users");
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

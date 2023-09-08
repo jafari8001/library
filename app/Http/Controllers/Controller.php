@@ -30,6 +30,7 @@ class Controller extends BaseController{
             );
     }
     public function getDataById(Request $request){
+        $this->validateRequest($request, ["id"=>"required|integer"]);
         $user = $this->model_name::findDataById($request['id']);
         if ($user == false) {
             return showResponse(
@@ -40,11 +41,14 @@ class Controller extends BaseController{
         return showResponse(
             200,
             "Find Data succesfull",
-            $user);
+            $user); 
     }
     public function addData(Request $request){
         $this->validateRequest($request, $this->rules);
         $data = $request->only($this->data_inputs);
+        if (auth()->check()) {
+            array_push($data, ["created_by" => auth()->user()->id] );
+        }
         return showResponse(
             200,
             "Add data successfull",
@@ -52,6 +56,7 @@ class Controller extends BaseController{
         );
     }
     public function editData(Request $request){
+        $this->validateRequest($request, ["id"=>"required|integer"]);
         $data = $this->model_name::findDataById($request->id);
         if ($data == false) {
             return showResponse(
@@ -67,6 +72,7 @@ class Controller extends BaseController{
         );
     }
     public function deleteData(Request $request){
+        $this->validateRequest($request, ["id"=>"required|integer"]);
         $user = $this->model_name::findDataById($request['id']);
         if ($user == false) {
             return showResponse(
